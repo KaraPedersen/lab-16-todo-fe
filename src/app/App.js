@@ -10,10 +10,20 @@ import {
 } from 'react-router-dom';
 import './App.css';
 import AuthPage from '../auth/Auth.js';
+import getToDos from '../todo-tracker/todoTracker';
 
 class App extends Component {
+  state = {
+    token: window.localStorage.getItem('TOKEN')
+  }
+
+  handleUser = user => {
+    window.localStorage.setItem('TOKEN', user.token);
+    this.setState({ token: user.token });
+  }
 
   render() {
+    const { token } = this.state;
     return (
       <div className="App">
         <Router>
@@ -31,6 +41,13 @@ class App extends Component {
                 render={routerProps => (
                   <AuthPage {...routerProps}
                     onUser={this.handleUser} />
+                )}
+              />
+              <Route path="/todo-tracker" exact={true}
+                render={routerProps =>(
+                  token
+                    ? <getToDos {...routerProps}/>
+                    : <Redirect to="/auth"/>
                 )}
               />
 

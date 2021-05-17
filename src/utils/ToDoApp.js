@@ -4,7 +4,12 @@ export async function signUp(credentials) {
   const response = await request
     .post('/api/auth/signup')
     .ok(res => res.status < 500)
-    .send(credentials);
+    // .send(credentials);
+    .send({ 
+      name: credentials.name, 
+      email: credentials.email,
+      password: credentials.password
+    });
 
   if (response.status === 400) {
     throw response.body;
