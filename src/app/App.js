@@ -9,6 +9,7 @@ import {
   Redirect
 } from 'react-router-dom';
 import './App.css';
+import AuthPage from '../auth/Auth.js';
 
 class App extends Component {
 
@@ -16,25 +17,20 @@ class App extends Component {
     return (
       <div className="App">
         <Router>
-          <Header/>
+          <Header />
           <main>
 
             <Switch>
               <Route path="/" exact={true}
                 render={routerProps => (
-                  <Home {...routerProps}/>
+                  <Home {...routerProps} />
                 )}
               />
 
-              <Route path="/resources" exact={true}
+              <Route path="/auth" exact={true}
                 render={routerProps => (
-                  <div>Implement a page of resources</div>
-                )}
-              />
-
-              <Route path="/resources/:id"
-                render={routerProps => (
-                  <div>Implement a page for id {routerProps.match.params.id}</div>
+                  <AuthPage {...routerProps}
+                    onUser={this.handleUser} />
                 )}
               />
 
@@ -42,7 +38,7 @@ class App extends Component {
 
             </Switch>
           </main>
-          <Footer/>
+          <Footer />
         </Router>
       </div>
     );
