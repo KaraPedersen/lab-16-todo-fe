@@ -36,7 +36,7 @@ export async function addToDo(todo) {
     .post('/todos')
     .set('Authorization', window.localStorage.getItem('TOKEN'))
     .send(todo);
-  console.log(response.body);
+  
   return response.body;
 }
 
@@ -47,6 +47,16 @@ export async function getToDos() {
 
   return response.body;
 }
+
+export async function updateTodoCompleted(todo) {
+  const response = await request 
+    .put(`/todos/${todo.id}`)
+    .set(`Authorization`, window.localStorage.getItem('TOKEN'))
+    .send(todo);
+  return response.body;
+}
+
+
 
 export async function deleteToDo(id) {
   const response = await request

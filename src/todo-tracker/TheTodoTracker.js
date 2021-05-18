@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { deleteToDo, getToDos, addToDo } from '../utils/ToDoApp';
+import { deleteToDo, getToDos, addToDo, updateTodoCompleted } from '../utils/ToDoApp';
 import './TheTodoTracker.css';
 
 export default class todoTracker extends Component {
@@ -40,6 +40,21 @@ export default class todoTracker extends Component {
     this.setState({ todoTask: target.value });
   }
 
+  handleCompletedChecked = async (todo) => {
+    try {
+      todo.completed = !todo.completed;
+      const updatedTodo = await updateTodoCompleted(todo);
+      const updatedNewTodos = this.state.todos.map(todo => {
+        return todo.id === updatedTodo.id ? updatedTodo : todo;
+      });
+      this.setState({ todos: updatedNewTodos });
+    }
+    catch (err) {
+      console.log(err);
+    }
+  }
+
+
   handleDelete = async id => {
     const { todos } = this.state;
 
@@ -48,7 +63,7 @@ export default class todoTracker extends Component {
       await deleteToDo(id);
 
       const updatedTodos = todos.filter(todo => todo.id !== id);
-      this.setState.state({ todos: updatedTodos });
+      this.setState({ todos: updatedTodos });
     }
     catch (err) {
       console.log(err);
@@ -70,8 +85,10 @@ export default class todoTracker extends Component {
           {todos.map(todo => (
             <li key={todo.id}>
               <h2>{todo.task}</h2>
-              <span>{todo.completed} {todo.completed === 1 ? 'Complete' : 'Completed'}</span>
-              <button className="complete" onClick={() => this.handleComplete(todo.id)}>🤠</button>
+              <input type="checkbox" value={todo.completed}
+                onChange={() => this.handleCompletedChecked(todo)} />
+              <span>{todo.completed} {todo.completed === false ? 'Complete' : 'Completed'}</span>
+              {/* <button className="complete" onClick={() => this.handleComplete(todo.id)}>🤠</button> */}
               <button className="delete" onClick={() => this.handleDelete(todo.id)}>☠️</button>
             </li>
           ))}
