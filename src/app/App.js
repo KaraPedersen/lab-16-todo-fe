@@ -10,7 +10,8 @@ import {
 } from 'react-router-dom';
 import './App.css';
 import AuthPage from '../auth/Auth.js';
-import getToDos from '../todo-tracker/todoTracker';
+// import getToDos from '../todo-tracker/todoTracker';
+import TheTodoTracker from '../todo-tracker/TheTodoTracker';
 
 class App extends Component {
   state = {
@@ -44,10 +45,10 @@ class App extends Component {
                 )}
               />
               <Route path="/todo-tracker" exact={true}
-                render={routerProps =>(
+                render={routerProps => (
                   token
-                    ? <getToDos {...routerProps}/>
-                    : <Redirect to="/auth"/>
+                    ? <TheTodoTracker {...routerProps} />
+                    : <Redirect to="/auth" />
                 )}
               />
 
