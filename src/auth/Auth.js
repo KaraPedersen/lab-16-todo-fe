@@ -29,7 +29,7 @@ export default class AuthPage extends Component {
 
       onUser(user);
 
-      history.push('/');
+      history.push('/todo-tracker');
     }
     catch (err) {
       this.setState({ error: err.error });

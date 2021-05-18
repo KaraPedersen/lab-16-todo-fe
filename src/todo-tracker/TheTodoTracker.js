@@ -1,10 +1,11 @@
 import { Component } from 'react';
 import { deleteToDo, getToDos, addToDo } from '../utils/ToDoApp';
-import './todoTracker.css';
+import './TheTodoTracker.css';
 
 export default class todoTracker extends Component {
   state = {
-    todoTask: '',
+    task: '',
+    completed: false,
     todos: []
   }
 
@@ -20,10 +21,10 @@ export default class todoTracker extends Component {
 
   handleAdd = async e => {
     e.preventDefault();
-    const { todoTask, todos } = this.state;
+    const { todoTask, todos, completed } = this.state;
 
     try {
-      const addedToDo = await addToDo ({ name : todoTask });
+      const addedToDo = await addToDo({ task: todoTask, completed });
       const updatedToDos = [...todos, addedToDo];
       this.setState({
         todos: updatedToDos,
@@ -34,18 +35,18 @@ export default class todoTracker extends Component {
       console.log(err.message);
     }
   }
-  
+
   handleTodoNameChange = ({ target }) => {
     this.setState({ todoTask: target.value });
   }
 
   handleDelete = async id => {
-    const { todos } = this.state;  
+    const { todos } = this.state;
 
     try {
 
       await deleteToDo(id);
-      
+
       const updatedTodos = todos.filter(todo => todo.id !== id);
       this.setState.state({ todos: updatedTodos });
     }
@@ -62,9 +63,9 @@ export default class todoTracker extends Component {
 
         <form onSubmit={this.handleAdd}>
           Add a new todo:
-          <input value={todoTask} onChange={this.handleTodoNameChange}/>
+          <input value={todoTask} onChange={this.handleTodoNameChange} />
         </form>
-        
+
         <ul>
           {todos.map(todo => (
             <li key={todo.id}>
@@ -75,7 +76,7 @@ export default class todoTracker extends Component {
             </li>
           ))}
         </ul>
-        
+
       </div>
     );
   }
