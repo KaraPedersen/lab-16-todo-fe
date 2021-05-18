@@ -2,7 +2,7 @@ import request from 'superagent';
 
 export async function signUp(credentials) {
   const response = await request
-    .post('/auth/signup')
+    .post('/api/auth/signup')
     .ok(res => res.status < 500)
     // .send(credentials);
     .send({
@@ -20,7 +20,7 @@ export async function signUp(credentials) {
 
 export async function signIn(credentials) {
   const response = await request
-    .post('/auth/signin')
+    .post('/api/auth/signin')
     .ok(res => res.status < 500)
     .send(credentials);
 
@@ -33,7 +33,7 @@ export async function signIn(credentials) {
 
 export async function addToDo(todo) {
   const response = await request
-    .post('/todos')
+    .post('/api/todos')
     .set('Authorization', window.localStorage.getItem('TOKEN'))
     .send(todo);
   
@@ -42,7 +42,7 @@ export async function addToDo(todo) {
 
 export async function getToDos() {
   const response = await request
-    .get('/me/todos')
+    .get('/api/me/todos')
     .set('Authorization', window.localStorage.getItem('TOKEN'));
 
   return response.body;
@@ -50,7 +50,7 @@ export async function getToDos() {
 
 export async function updateTodoCompleted(todo) {
   const response = await request 
-    .put(`/todos/${todo.id}`)
+    .put(`/api/todos/${todo.id}`)
     .set(`Authorization`, window.localStorage.getItem('TOKEN'))
     .send(todo);
   return response.body;
@@ -60,7 +60,7 @@ export async function updateTodoCompleted(todo) {
 
 export async function deleteToDo(id) {
   const response = await request
-    .delete(`/todos/${id}`)
+    .delete(`/api/todos/${id}`)
     .set('Authorization', window.localStorage.getItem('TOKEN'));
 
   return response.body;
